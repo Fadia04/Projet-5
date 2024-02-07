@@ -4,25 +4,22 @@ from ClassDataBase import DataBase
 from ClassAPI import API
 from ClassUser import User
 
+
 def main():
+    # method to make all the classes interact
     api = API()
-    api.get_products()
+    # create an object for the API class
+    api.get_products()  # to call a function
     api.cleaner_products()
-    cleaned_products = api.get_cleaned_products() 
+    cleaned_products = api.get_cleaned_products()
     api.get_cleaned_products()
 
-    database=DataBase(cleaned_products)
-    database.set_Database()
-    database.set_tables()
-    database.set_product()
-    database.set_category()
-    database.set_categorized() 
-        
-    user=User(database)
-    user.run()
-    user.menu_category()
-    user.menu_product()
-    user.menu_substitut()
+    database = DataBase(cleaned_products)
+    # create an object for the DataBase class
+
+    user = User(database)
+    # create an object for the User class
+    user.reset_database()
 
 
 if __name__ == "__main__":
