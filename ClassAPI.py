@@ -53,6 +53,9 @@ class API:
                 data["stores"] = data.get("stores").lower()
                 data["nutriscore_grade"] = data.get("nutriscore_grade").lower()
                 self.cleaned_products.append(data)
+                #print(data["product_name_fr"])
+                #print(data["categories"])
+                
 
     def get_cleaned_products(self):
         # To return the selected products

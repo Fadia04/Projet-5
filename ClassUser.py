@@ -58,7 +58,7 @@ class User:
                     menu_category = False
                     print(f"\n Voulez-vous continuer? Sélectionnez un numéro :\n")
             except ValueError:
-                print("Vous n'avez pas choisi de nombre entre 1 et 5")
+                print("Vous n'avez pas choisi de numéro entre 1 et 5")
                 choix_category = int(
                     input("Sélectionner un numéro de catégorie entre 1 et 5 \n")
                 )
@@ -67,8 +67,9 @@ class User:
         """
         Function used to display the list of products by calling the get_product() method
         """
-        print(f"\n Voici les produits que nous avons trouvées pour cette catégorie :\n")
+        print(f"\n Voici les produits que nous avons trouvés pour cette catégorie :\n")
         products = self.dataBase.get_product(id_category)
+        
         for i in range(len(products)):
             print(f"{i+1} - {products[i][1]}")
         # menu_product loop.
@@ -87,7 +88,7 @@ class User:
                 print(f" - url: {products[choix_product-1][3]}")
                 print(f" - code: {products[choix_product-1][4]}")
                 print(f" - nutriscore: {products[choix_product-1][5]}")
-
+                
                 if choix_product > 0 <= (len(products)):
                     # Calling up the substitut menu
                     self.menu_substitut(
@@ -104,12 +105,11 @@ class User:
         """
         Function used to display the list of products by calling the get_substitut() method
         """
-        print("test")
         substituts = self.dataBase.get_substitut(id_product, id_category, nutriscore)
 
         try:
             rand = randint(0, len(substituts) - 1)
-            if substituts[rand][5] < nutriscore:
+            if substituts[rand][5] < nutriscore or substituts == 0:
                 # Display of random substituts with their parameters
                 print(
                     f"\n Et voici le substitut que nous avons trouvé pour le remplacer :\n"
@@ -119,14 +119,21 @@ class User:
                 print(f" - url: {substituts[rand][3]}")
                 print(f" - code: {substituts[rand][4]}")
                 print(f" - nutriscore: {substituts[rand][5]}")
-            elif substituts[rand][5] >= nutriscore or substituts[rand][5] == 0:
+                print(substituts)
+                print("cond0")
+            elif substituts[rand][5] >= nutriscore or nutriscore =='a' :
                 print(
                     f"\n Vous avez déjà choisi un produit avec le meilleur nutriscore \n"
                 )
         except TypeError:
-            print(
-                f"\n Il n'y a actuellement pas de substitut à votre produit dans notre base\n"
-            )
+            if nutriscore == 'a':
+                print(f"\n Vous avez déja choisi un produit avec le meilleur nutriscore"                
+                )
+                menu_substitut = True
+            else:
+                print(
+                    f"\n Il n'y a actuellement pas de substitut à votre produit dans notre base\n"
+                )
             return
         menu_substitut = True
         while menu_substitut:
@@ -134,6 +141,10 @@ class User:
                 substituts[rand][5] < nutriscore
                 or substituts[rand][5] >= nutriscore
                 or substituts[rand][5] == "a"
+                or nutriscore == "a"
+                or substituts[rand][5] == 0
+                or substituts == 0
+                
             ):
                 try:
                     choix_substitut = input(
@@ -177,7 +188,7 @@ class User:
             try:
                 choix = int(
                     input(
-                        "1. Rechercher un aliment à remplacer \n"
+                        "1. Quel aliment souhaitez-vous remplacer? \n"
                         "2. Retrouver mes aliments substitués \n"
                         "0. Quitter le programme\n"
                     )
@@ -185,7 +196,7 @@ class User:
 
                 if choix == 0:
                     print(
-                        "----------------------Merci de votre visite et à bientôt-------------------------------"
+                        "----------------------Merci de votre visite et à bientôt-------------------------------\n"
                     )
                     menu = False
                 if choix == 1:

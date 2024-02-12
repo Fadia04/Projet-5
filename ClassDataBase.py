@@ -153,7 +153,9 @@ class DataBase:
                 % {"id_product": id_product[0]}
             )
             products.append(self.cursor.fetchone())
+            print(products)
         return products
+        
 
     def get_id_substitut(self, id_product, id_category):
         """
@@ -177,13 +179,13 @@ class DataBase:
         self.cursor.execute("USE DBP5")
         substituts = []
         for id_product in self.get_id_substitut(id_product, id_category)[0]:
-            print(id_product)
+            #print(id_product)
             self.cursor.execute(
                 "SELECT * FROM Product WHERE id_product = '%(id_product)s' AND nutriscore <= '%(nutriscore)s';"
                 % {"id_product": id_product[0], "nutriscore": nutriscore}
             )
             substituts.append(self.cursor.fetchone())
-            print(substituts)
+            #print(substituts)
             return substituts
 
     def set_favory(self, id_product):
